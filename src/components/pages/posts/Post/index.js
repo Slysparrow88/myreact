@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { connect } from "react-redux";
 
 import List from "../shared/components/List";
-import { listPosts } from "../shared/service";
+import { listPosts, updataPosts } from "../shared/service";
 import "../shared/style.scss";
 
 function Posts(props) {
@@ -12,6 +12,7 @@ function Posts(props) {
     addFavoriteAction,
     removeFavoriteAction,
     changePostStatusAction,
+    updataPostAction,
   } = props;
 
   useEffect(() => {
@@ -20,13 +21,20 @@ function Posts(props) {
     });
   }, []);
 
-
-
+  const likePost = post => {
+    updataPosts({
+      id: post.id,
+      likes: parseInt(post.likes) + 1,
+    }).then(data => {
+      updataPostAction(data);
+    })
+  }
 
   return (
     <div className="post-theme" id="posts">
       <List
         posts={posts}
+        likePost={likePost}
         addFavorite={addFavoriteAction}
         removeFavorite={removeFavoriteAction}
         changePostStatus={changePostStatusAction}
@@ -48,6 +56,9 @@ const mapDispatchToProps = dispatch => {
     },
     changePostStatusAction: id => {
       dispatch({ type: "CHANGE_POST_STATUS", id });
+    },
+    updataPostAction: post => {
+      dispatch({ type: "UPDATE_POST", post });
     },
   };
 };

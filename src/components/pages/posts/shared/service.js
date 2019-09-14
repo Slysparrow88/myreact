@@ -2,19 +2,17 @@ import { BASE_URL, CLIENT_ID } from "../../../../system/settings";
 
 export const listPosts = () => {
 
-  const url = `${BASE_URL}`;
-  
-  return fetch(url).then(response => {
+  return fetch(BASE_URL).then(response => {
 
     return response.json();
 
   });
 };
-export const likePosts = (post, like) => {
-  const url = `${BASE_URL}${post.id}/like/?client_id=${CLIENT_ID}`;
+export const updataPosts = data => {
 
-  return fetch(url, {
-    method: "POST"
+  return fetch(`${BASE_URL}/update/${data.id}`, {
+    method: "POST",
+    body: JSON.stringify(data),
   }).then(response => {
     return response.json();
   });

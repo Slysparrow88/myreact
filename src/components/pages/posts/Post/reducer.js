@@ -37,6 +37,17 @@ export default function (state = initialState, action) {
       })
     }
   }
+  if (action.type === 'UPDATE_POST') {
+    return {
+      ...state,
+      dataPosts: state.dataPosts.map(post => {
+        if (post.id === action.post.id) {
+          return { ...post, ...action.post }
+        }
+        return post;
+      })
+    }
+  }
 
   return state;
 }
